@@ -483,6 +483,38 @@
     </div>
 
     <script>
+        // Статичная конфигурация тем (добавляйте сюда свои темы)
+        const staticTopics = {
+            education: [
+                {
+                    name: 'Recognition',
+                    files: ['Recognition 1.png', 'Recognition 2.png', 'Recognition 3.png', 'Recognition 4.png', 'Recognition 5.png', 'Recognition 6.png']
+                },
+                {
+                    name: '5 question', 
+                    files: [] // добавьте файлы когда загрузите
+                }
+            ],
+            technique: [
+                // Добавьте свои темы здесь
+            ],
+            book: [
+                {
+                    name: 'Reinventing organizations',
+                    files: [] // добавьте список файлов
+                }
+            ],
+            movie: [
+                // Добавьте свои темы здесь  
+            ],
+            memes: [
+                // Все мемы в одной папке
+            ],
+            quote: [
+                // Все цитаты в одной папке
+            ]
+        };
+
         // Конфигурация категорий
         const categories = [
             {
@@ -649,79 +681,30 @@
         }
 
         async function loadTopicsFromCategory(folderPath, categoryId) {
-            const topics = [];
+            console.log(`Loading topics from static config for: ${categoryId}`);
             
-            try {
-                console.log(`Loading topics from: ${folderPath}`);
-                
-                // Добавляем задержку между запросами для избежания лимитов
-                await new Promise(resolve => setTimeout(resolve, 200));
-                
-                const response = await fetch(`https://api.github.com/repos/${getRepoInfo()}/contents/${folderPath}`, {
-                    headers: {
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                
-                if (!response.ok) {
-                    console.warn(`Failed to load ${folderPath}: ${response.status}`);
-                    return topics;
+            // Используем статичную конфигурацию вместо API
+            const topics = staticTopics[categoryId] || [];
+            const formattedTopics = [];
+            
+            for (const topic of topics) {
+                if (topic.files && topic.files.length > 0) {
+                    const images = topic.files.map(fileName => ({
+                        name: fileName,
+                        url: `https://raw.githubusercontent.com/${getRepoInfo()}/main/cards/${categoryId}/${topic.name}/${fileName}`
+                    }));
+                    
+                    formattedTopics.push({
+                        category: categoryId,
+                        name: topic.name,
+                        path: `cards/${categoryId}/${topic.name}`,
+                        images: images
+                    });
                 }
-                
-                const folders = await response.json();
-                console.log(`Found ${folders.length} items in ${folderPath}`);
-                
-                const subfolders = folders.filter(item => item.type === 'dir');
-                console.log(`Found ${subfolders.length} subfolders:`, subfolders.map(f => f.name));
-
-                for (const folder of subfolders) {
-                    try {
-                        console.log(`Loading images from: ${folderPath}/${folder.name}`);
-                        
-                        // Задержка между запросами
-                        await new Promise(resolve => setTimeout(resolve, 300));
-                        
-                        const folderResponse = await fetch(`https://api.github.com/repos/${getRepoInfo()}/contents/${folderPath}/${folder.name}`, {
-                            headers: {
-                                'Accept': 'application/vnd.github.v3+json'
-                            }
-                        });
-                        
-                        if (!folderResponse.ok) {
-                            console.warn(`Failed to load folder ${folder.name}: ${folderResponse.status}`);
-                            continue;
-                        }
-
-                        const files = await folderResponse.json();
-                        const imageFiles = files.filter(file => 
-                            file.type === 'file' && 
-                            /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(file.name)
-                        );
-
-                        console.log(`Folder ${folder.name} has ${imageFiles.length} images`);
-
-                        if (imageFiles.length > 0) {
-                            topics.push({
-                                category: categoryId,
-                                name: folder.name,
-                                path: `${folderPath}/${folder.name}`,
-                                images: imageFiles.map(img => ({
-                                    name: img.name,
-                                    url: img.download_url
-                                }))
-                            });
-                        }
-                    } catch (error) {
-                        console.warn(`Error loading folder ${folder.name}:`, error);
-                    }
-                }
-
-                console.log(`Final topics found: ${topics.length}`);
-                return topics;
-            } catch (error) {
-                console.error('Error loading topics from category:', error);
-                return topics;
             }
+            
+            console.log(`Found ${formattedTopics.length} topics in ${categoryId}`);
+            return formattedTopics;
         }
 
         async function loadCategoryCards(categoryId) {
