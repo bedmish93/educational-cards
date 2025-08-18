@@ -653,7 +653,15 @@
             
             try {
                 console.log(`Loading topics from: ${folderPath}`);
-                const response = await fetch(`https://api.github.com/repos/${getRepoInfo()}/contents/${folderPath}`);
+                
+                // Добавляем задержку между запросами для избежания лимитов
+                await new Promise(resolve => setTimeout(resolve, 200));
+                
+                const response = await fetch(`https://api.github.com/repos/${getRepoInfo()}/contents/${folderPath}`, {
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
                 
                 if (!response.ok) {
                     console.warn(`Failed to load ${folderPath}: ${response.status}`);
@@ -669,7 +677,15 @@
                 for (const folder of subfolders) {
                     try {
                         console.log(`Loading images from: ${folderPath}/${folder.name}`);
-                        const folderResponse = await fetch(`https://api.github.com/repos/${getRepoInfo()}/contents/${folderPath}/${folder.name}`);
+                        
+                        // Задержка между запросами
+                        await new Promise(resolve => setTimeout(resolve, 300));
+                        
+                        const folderResponse = await fetch(`https://api.github.com/repos/${getRepoInfo()}/contents/${folderPath}/${folder.name}`, {
+                            headers: {
+                                'Accept': 'application/vnd.github.v3+json'
+                            }
+                        });
                         
                         if (!folderResponse.ok) {
                             console.warn(`Failed to load folder ${folder.name}: ${folderResponse.status}`);
