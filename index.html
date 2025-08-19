@@ -12,9 +12,6 @@
     .header{text-align:center;margin-bottom:25px}
     .header h1{font-size:2rem;color:#2c3e50;margin-bottom:5px;font-weight:700}
     .header p{color:#7f8c8d;font-size:1rem;font-weight:300}
-    .search-container{background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%);border-radius:15px;padding:15px;margin-bottom:20px;border:2px solid #dee2e6}
-    .search-box{width:100%;padding:12px 20px;border:2px solid #ced4da;border-radius:50px;font-size:1rem;background:#fff;transition:.3s}
-    .search-box:focus{outline:none;border-color:#4ECDC4;box-shadow:0 0 0 4px rgba(78,205,196,.1)}
     .categories-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;flex:1;overflow-y:auto;padding-right:10px}
     .category-card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.1);transition:.3s;border:2px solid transparent;cursor:pointer;position:relative}
     .category-card:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(0,0,0,.15);border-color:#4ECDC4}
@@ -31,38 +28,29 @@
     .category-description{color:#7f8c8d;font-size:.8rem;margin-bottom:12px}
     .load-button{background:linear-gradient(135deg,#4ECDC4 0%,#44A08D 100%);color:#fff;border:none;padding:8px 16px;border-radius:20px;font-size:.8rem;font-weight:600;cursor:pointer;transition:.3s;width:100%}
     .load-button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(78,205,196,.3)}
-    .load-button:disabled{background:#ccc;cursor:not-allowed;transform:none;box-shadow:none}
     .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.9);backdrop-filter:blur(5px)}
     .modal-content{background:#fff;margin:2% auto;padding:30px;border-radius:20px;width:90%;max-width:1000px;max-height:90vh;overflow-y:auto;position:relative}
     .modal-close{position:absolute;right:20px;top:20px;font-size:2rem;cursor:pointer;color:#999;transition:.3s;z-index:1001}
     .modal-close:hover{color:#333}
     .modal-header{text-align:center;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid #eee}
     .modal-title{font-size:2rem;color:#2c3e50;margin-bottom:10px}
-    .slider-container{position:relative;width:100%;height:500px;overflow:hidden;border-radius:15px;background:#f8f9fa}
-    .slider-wrapper{display:flex;transition:transform .3s;height:100%}
-    .slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative}
-    .slide img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
-    .slider-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.9);border:none;width:50px;height:50px;border-radius:50%;font-size:1.5rem;cursor:pointer;transition:.3s;z-index:100}
-    .slider-nav:hover{background:#fff;transform:translateY(-50%) scale(1.1)}
-    .slider-prev{left:20px}.slider-next{right:20px}
-    .slider-dots{display:flex;justify-content:center;gap:10px;margin-top:20px}
-    .dot{width:12px;height:12px;border-radius:50%;background:#ccc;cursor:pointer;transition:.3s}
-    .dot.active{background:#4ECDC4;transform:scale(1.2)}
-    .loading{text-align:center;padding:40px;color:#7f8c8d}
-    .spinner{border:3px solid #f3f3f3;border-top:3px solid #4ECDC4;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;margin:20px auto}
-    @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
     .topics-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-height:400px;overflow-y:auto;padding:10px}
     .topic-item{background:#f8f9fa;border-radius:12px;padding:15px;cursor:pointer;transition:.3s;border:2px solid transparent}
     .topic-item:hover{background:#e9ecef;border-color:#4ECDC4;transform:translateY(-2px)}
     .topic-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-    .topic-header h3{margin:0;font-size:1rem;color:#2c3e50}
     .topic-count{background:#4ECDC4;color:#fff;padding:2px 8px;border-radius:12px;font-size:.8rem;font-weight:500}
     .topic-preview{display:flex;gap:5px;align-items:center}
     .topic-preview-img{width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid #dee2e6}
-    .more-indicator{background:#6c757d;color:#fff;width:40px;height:40px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:500}
-    .error{background:#ffe6e6;color:#d63031;padding:15px;border-radius:10px;border-left:4px solid #d63031;margin:10px 0;font-size:.9rem}
-    @media (max-width:1280px){.widget-container{width:100%;max-width:1240px}}
-    @media (max-width:768px){.categories-grid{grid-template-columns:repeat(2,1fr)}.widget-container{padding:20px;height:auto;min-height:600px}.header h1{font-size:1.5rem}}
+    .slider-container{position:relative;width:100%;height:500px;overflow:hidden;border-radius:15px;background:#f8f9fa}
+    .slider-wrapper{display:flex;transition:transform .3s;height:100%}
+    .slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+    .slide img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px}
+    .slider-nav{position:absolute;top:50%;transform:translateY(-50%);background:#fff;border:none;width:50px;height:50px;border-radius:50%;font-size:1.5rem;cursor:pointer;z-index:100}
+    .slider-prev{left:20px}.slider-next{right:20px}
+    .slider-dots{display:flex;justify-content:center;gap:10px;margin-top:20px}
+    .dot{width:12px;height:12px;border-radius:50%;background:#ccc;cursor:pointer}
+    .dot.active{background:#4ECDC4}
+    .error{background:#ffe6e6;color:#d63031;padding:15px;border-radius:10px;margin:10px 0}
   </style>
 </head>
 <body>
@@ -71,15 +59,9 @@
       <h1>📚 Education Station</h1>
       <p>Select a category to view cards</p>
     </div>
-
-    <div class="search-container">
-      <input type="text" class="search-box" placeholder="🔍 Search topics and images..." id="searchInput"/>
-    </div>
-
     <div class="categories-grid" id="categoriesGrid"></div>
   </div>
 
-  <!-- Modal -->
   <div id="cardsModal" class="modal">
     <div class="modal-content">
       <span class="modal-close">&times;</span>
@@ -91,305 +73,107 @@
   </div>
 
   <script>
-    /* ===== CONFIG ===== */
     const categories = [
       { id:'education', title:'Education', icon:'🎓', description:'Learning materials', folder:'cards/education' },
       { id:'technique', title:'Technique', icon:'⚙️', description:'Educational techniques', folder:'cards/technique' },
       { id:'book', title:'Book', icon:'📚', description:'Book reviews', folder:'cards/book' },
       { id:'movie', title:'Movie', icon:'🎬', description:'Movies & videos', folder:'cards/movie' },
-      { id:'memes', title:'Memes', icon:'😄', description:'Memes & humor', folder:'cards/memes', buttonText:'Get Random Meme!' },
-      { id:'quote', title:'Quote', icon:'💬', description:'Quotes & wisdom', folder:'cards/quote', buttonText:'Get Random Quote!' },
+      { id:'memes', title:'Memes', icon:'😄', description:'Memes & humor', folder:'cards/memes' },
+      { id:'quote', title:'Quote', icon:'💬', description:'Quotes & wisdom', folder:'cards/quote' },
     ];
-
-    /** Если НЕ на GitHub Pages — укажи свои данные тут */
     const FALLBACK = { OWNER:'your-username', REPO:'educational-cards', BRANCH:'main' };
+    let currentSlideIndex = 0, currentImages = [];
 
-    /* ===== STATE ===== */
-    let currentSlideIndex = 0;
-    let currentImages = [];
-    let allTopicsData = [];
+    document.addEventListener('DOMContentLoaded', ()=>{ displayCategories(); setupModal(); });
 
-    /* ===== INIT ===== */
-    document.addEventListener('DOMContentLoaded', () => {
-      displayCategories();
-      setupEventListeners();
-      indexAllTopics(); // индексация для поиска
-    });
-
-    /* ===== UI ===== */
     function displayCategories(){
       const grid = document.getElementById('categoriesGrid');
-      grid.innerHTML = categories.map(c => `
-        <div class="category-card" data-category="${c.id}">
+      grid.innerHTML = categories.map(c=>`
+        <div class="category-card">
           <div class="category-header ${c.id}">
             <span class="category-icon">${c.icon}</span>
             <div class="category-title">${c.title}</div>
           </div>
           <div class="category-content">
             <div class="category-description">${c.description}</div>
-            <button class="load-button" id="btn-${c.id}" onclick="loadCategoryCards('${c.id}')">
-              ${c.buttonText || 'View Topics'}
-            </button>
+            <button class="load-button" onclick="loadCategoryCards('${c.id}')">View Topics</button>
           </div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
-
-    function setupEventListeners(){
-      let t=null;
-      document.getElementById('searchInput').addEventListener('input', e=>{
-        clearTimeout(t);
-        t=setTimeout(()=>handleSearch(e),150);
-      });
-
+    function setupModal(){
       document.querySelector('.modal-close').addEventListener('click', closeModal);
-      document.getElementById('cardsModal').addEventListener('click', e=>{
-        if(e.target===e.currentTarget) closeModal();
-      });
-
-      document.addEventListener('keydown', e=>{
-        if(document.getElementById('cardsModal').style.display==='block'){
-          if(e.key==='ArrowLeft') prevSlide();
-          if(e.key==='ArrowRight') nextSlide();
-          if(e.key==='Escape') closeModal();
-        }
-      });
+      document.getElementById('cardsModal').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeModal(); });
     }
+    function showModal(title){ document.getElementById('modalTitle').textContent=title; document.getElementById('cardsModal').style.display='block'; }
+    function closeModal(){ document.getElementById('cardsModal').style.display='none'; }
 
-    function handleSearch(e){
-      const q = e.target.value.toLowerCase();
-      const cards = document.querySelectorAll('.category-card');
-      if(q.length<2){ cards.forEach(c=>c.style.display='block'); return; }
-
-      let hasResults = false;
-      cards.forEach(card=>{
-        const cat = categories.find(c=>c.id===card.dataset.category);
-        const matchCat = cat.title.toLowerCase().includes(q) || cat.description.toLowerCase().includes(q);
-        const matchTopic = allTopicsData.some(t =>
-          t.category===cat.id && (t.name.toLowerCase().includes(q) || t.images.some(img=>img.name.toLowerCase().includes(q)))
-        );
-        const match = matchCat || matchTopic;
-        card.style.display = match ? 'block' : 'none';
-        if(match) hasResults = true;
-      });
-
-      if(hasResults){
-        const matching = allTopicsData.filter(t =>
-          t.name.toLowerCase().includes(q) || t.images.some(img=>img.name.toLowerCase().includes(q))
-        );
-        if(matching.length) console.log(`Found ${matching.length} matching topics`, matching);
-      }
-    }
-
-    /* ===== GitHub helpers (1 запрос на категорию через git tree) ===== */
     function getRepoInfo(){
-      const hostname = window.location.hostname;
-      const pathname = window.location.pathname;
-      if(hostname.endsWith('github.io')){
-        const owner = hostname.split('.')[0];
-        const repo  = pathname.split('/')[1] || 'educational-cards';
-        return { owner, repo, branch:'main' };
-      }
+      const h=location.hostname,p=location.pathname;
+      if(h.endsWith('github.io')) return { owner:h.split('.')[0], repo:p.split('/')[1]||'educational-cards', branch:'main' };
       return { owner:FALLBACK.OWNER, repo:FALLBACK.REPO, branch:FALLBACK.BRANCH };
     }
-
     async function fetchTree(prefix){
-      const { owner, repo, branch } = getRepoInfo();
-      const url = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
-      const res = await fetch(url);
-      if(!res.ok){
-        const txt = await res.text();
-        throw new Error(`GitHub API ${res.status}: ${txt}`);
-      }
-      const data = await res.json();
-      return data.tree.filter(n => n.type==='blob' && n.path.startsWith(prefix));
+      const {owner,repo,branch}=getRepoInfo();
+      const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`);
+      const d=await r.json();
+      return d.tree.filter(n=>n.type==='blob'&&n.path.startsWith(prefix));
     }
-
-    /* ===== Topics & Images ===== */
     async function loadTopicsFromCategory(folderPath, categoryId){
-      const prefix = `${folderPath}/`; // cards/education/
-      const blobs = await fetchTree(prefix);
-      const byTopic = new Map();
-
+      const prefix=`${folderPath}/`, blobs=await fetchTree(prefix), byTopic=new Map(), {owner,repo,branch}=getRepoInfo();
       blobs.forEach(n=>{
-        if(!/\.(png|jpg|jpeg|gif|svg|webp)$/i.test(n.path)) return;
-
-        const rel = n.path.slice(prefix.length);         // e.g. "Recognition/Recognition 1.png"
-        const slash = rel.indexOf('/');
-        if(slash === -1) return;
-
-        const topic = rel.slice(0, slash);               // "Recognition" | "5 question"
-        const file  = rel.slice(slash+1);                // "Recognition 1.png"
-        if(!topic || !file || topic.startsWith('.')) return;
-
-        if(!byTopic.has(topic)) byTopic.set(topic, []);
-        const { owner, repo, branch } = getRepoInfo();
-
-        // кодируем каждый сегмент пути, пробелы ок
-        const rawUrl =
-          `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/` +
-          `${prefix}${encodeURIComponent(topic)}/${encodeURIComponent(file)}`.replace(/%2F/g,'/');
-
-        byTopic.get(topic).push({ name:file, url:rawUrl, folder:topic });
+        if(!/\.(png|jpe?g|gif|svg|webp)$/i.test(n.path))return;
+        const rel=n.path.slice(prefix.length), [topic,file]=rel.split('/');
+        if(!topic||!file)return;
+        const raw=`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${prefix}${encodeURIComponent(topic)}/${encodeURIComponent(file)}`.replace(/%2F/g,'/');
+        if(!byTopic.has(topic))byTopic.set(topic,[]);
+        byTopic.get(topic).push({name:file,url:raw,folder:topic});
       });
-
-      const topics = [];
-      for(const [topic, files] of byTopic.entries()){
-        topics.push({ category:categoryId, name:topic, path:`${folderPath}/${topic}`, images:files });
-      }
-      topics.sort((a,b)=>a.name.localeCompare(b.name, 'en', {numeric:true}));
-      return topics;
-    }
-
-    async function indexAllTopics(){
-      console.log('Indexing all topics for search…');
-      allTopicsData = [];
-      for(const c of categories){
-        try{
-          const topics = await loadTopicsFromCategory(c.folder, c.id);
-          allTopicsData.push(...topics);
-        }catch(e){
-          console.warn(`Failed to index ${c.id}:`, e.message);
-        }
-      }
-      console.log(`Indexed ${allTopicsData.length} topics for search`);
+      return [...byTopic.entries()].map(([name,images])=>({category:categoryId,name,images}));
     }
 
     async function loadCategoryCards(categoryId){
-      const cat = categories.find(c=>c.id===categoryId);
-      if(!cat) return;
-
-      showModal(`${cat.title} Topics`);
-      showLoading();
-
-      try{
-        const topics = await loadTopicsFromCategory(cat.folder, cat.id);
-        if(!topics.length){
-          showError('В этой категории пока нет тем.');
-          return;
-        }
-        displayTopicsList(topics, cat.id, cat.title);
-      }catch(err){
-        console.error('Ошибка загрузки карточек:', err);
-        const msg = /API 403/.test(err.message)
-          ? 'GitHub rate limit. Попробуйте позже или используйте свой GitHub Pages/репозиторий.'
-          : 'Error loading topics. Проверьте структуру папок.';
-        showError(msg);
-      }
-    }
-
-    function displayTopicsList(topics, categoryId, title){
-      const modalContent = document.getElementById('modalContent');
-
-      const itemsHtml = topics.map(t=>{
-        const count = t.images.length;
-        const previews = t.images.slice(0,3).map(img =>
-          `<img class="topic-preview-img" src="${img.url}" alt="${img.name}" loading="lazy">`
-        ).join('');
-        return `
-          <div class="topic-item" onclick="openTopic('${categoryId}', '${t.name.replace(/'/g,"\\'")}')">
-            <div class="topic-header">
-              <h3>${t.name}</h3>
-              <span class="topic-count">${count}</span>
-            </div>
-            <div class="topic-preview">
-              ${previews}${count>3 ? `<div class="more-indicator">+${count-3}</div>`:''}
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      modalContent.innerHTML = `
-        <div style="margin-bottom:12px;color:#6c757d;text-align:center">
-          Выберите тему из категории «${title}»
-        </div>
+      const cat=categories.find(c=>c.id===categoryId);
+      showModal(cat.title+' Topics');
+      const topics=await loadTopicsFromCategory(cat.folder,cat.id);
+      document.getElementById('modalContent').innerHTML=`
         <div class="topics-list">
-          ${itemsHtml}
-        </div>
-      `;
+          ${topics.map(t=>`
+            <div class="topic-item" onclick="openTopic('${categoryId}','${t.name}')">
+              <div class="topic-header"><h3>${t.name}</h3><span class="topic-count">${t.images.length}</span></div>
+              <div class="topic-preview">
+                ${t.images.slice(0,3).map(i=>`<img class="topic-preview-img" src="${i.url}">`).join('')}
+              </div>
+            </div>`).join('')}
+        </div>`;
     }
 
     function openTopic(categoryId, topicName){
-      const topic = allTopicsData.find(t => t.category===categoryId && t.name===topicName);
-      if(!topic){ showError('Тема не найдена (обновите страницу).'); return; }
-      currentImages = topic.images;
-      currentSlideIndex = 0;
-      displaySlider(currentImages, false, categoryId);
+      loadTopicsFromCategory(`cards/${categoryId}`,categoryId).then(topics=>{
+        const t=topics.find(x=>x.name===topicName);
+        currentImages=t.images; currentSlideIndex=0; displaySlider();
+      });
     }
-
-    /* ===== Slider ===== */
-    function displaySlider(images, isRandom=false, categoryId=null){
-      const modalContent = document.getElementById('modalContent');
-      if(images.length===0){ modalContent.innerHTML = '<div class="error">No images found</div>'; return; }
-
-      modalContent.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <button class="load-button" style="width:auto;padding:8px 14px" onclick="loadCategoryCards('${categoryId}')">← Back to topics</button>
-          ${isRandom ? `
-            <button class="load-button" style="width:auto;padding:8px 14px" onclick="loadCategoryCards('${categoryId}')">
-              🎲 ${categoryId==='memes' ? 'Another Meme!' : 'Another Quote!'}
-            </button>` : ''
-          }
-        </div>
+    function displaySlider(){
+      const imgs=currentImages;
+      document.getElementById('modalContent').innerHTML=`
         <div class="slider-container">
           <div class="slider-wrapper" id="sliderWrapper">
-            ${images.map(img => `
-              <div class="slide"><img src="${img.url}" alt="${img.name}" loading="lazy"/></div>
-            `).join('')}
+            ${imgs.map(i=>`<div class="slide"><img src="${i.url}"></div>`).join('')}
           </div>
-          ${images.length>1 ? `
-            <button class="slider-nav slider-prev" onclick="prevSlide()">‹</button>
-            <button class="slider-nav slider-next" onclick="nextSlide()">›</button>` : ''
-          }
+          <button class="slider-nav slider-prev" onclick="prevSlide()">‹</button>
+          <button class="slider-nav slider-next" onclick="nextSlide()">›</button>
         </div>
-        ${images.length>1 ? `
-          <div class="slider-dots">
-            ${images.map((_,i)=>`<div class="dot ${i===0?'active':''}" onclick="goToSlide(${i})"></div>`).join('')}
-          </div>` : ''
-        }
-        <div id="sliderCounter" style="text-align:center;margin-top:20px;color:#666;">
-          ${images.length>1 ? `1 of ${images.length} | ` : ''}${images[0]?.folder || 'Untitled'}
-        </div>
-      `;
-    }
-
-    function nextSlide(){ if(currentSlideIndex<currentImages.length-1){ currentSlideIndex++; updateSlider(); } }
-    function prevSlide(){ if(currentSlideIndex>0){ currentSlideIndex--; updateSlider(); } }
-    function goToSlide(i){ currentSlideIndex=i; updateSlider(); }
-
-    function updateSlider(){
-      const wrapper = document.getElementById('sliderWrapper');
-      if(!wrapper) return;
-      wrapper.style.transform = `translateX(-${currentSlideIndex*100}%)`;
-
-      const dots = [...document.querySelectorAll('.dot')];
-      dots.forEach((d,i)=>d.classList.toggle('active', i===currentSlideIndex));
-
-      const ctr = document.getElementById('sliderCounter');
-      if(ctr) ctr.textContent = `${currentImages.length>1 ? `${currentSlideIndex+1} of ${currentImages.length} | ` : ''}${currentImages[currentSlideIndex]?.folder || 'Untitled'}`;
-    }
-
-    /* ===== Modal helpers ===== */
-    function showModal(title){
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('cardsModal').style.display = 'block';
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModal(){
-      document.getElementById('cardsModal').style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
-    function showLoading(){
-      document.getElementById('modalContent').innerHTML = `
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Loading topics…</p>
+        <div class="slider-dots">
+          ${imgs.map((_,i)=>`<div class="dot ${i===0?'active':''}" onclick="goToSlide(${i})"></div>`).join('')}
         </div>`;
     }
-    function showError(message){
-      document.getElementById('modalContent').innerHTML = `
-        <div class="error"><strong>❌ Error:</strong> ${message}</div>`;
+    function updateSlider(){
+      document.getElementById('sliderWrapper').style.transform=`translateX(-${currentSlideIndex*100}%)`;
+      document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===currentSlideIndex));
     }
+    function nextSlide(){if(currentSlideIndex<currentImages.length-1){currentSlideIndex++;updateSlider();}}
+    function prevSlide(){if(currentSlideIndex>0){currentSlideIndex--;updateSlider();}}
+    function goToSlide(i){currentSlideIndex=i;updateSlider();}
   </script>
 </body>
 </html>
