@@ -12,12 +12,17 @@
     .header{text-align:center;margin-bottom:25px}
     .header h1{font-size:2rem;color:#2c3e50;margin-bottom:5px;font-weight:700}
     .header p{color:#7f8c8d;font-size:1rem;font-weight:300}
-    .categories-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;flex:1;overflow-y:auto;padding-right:10px}
+
+    /* сетка: ровно 3 колонки; по order задаём строки */
+    .categories-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:20px;flex:1;overflow-y:auto;padding-right:10px
+    }
     .category-card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.1);transition:.3s;border:2px solid transparent;cursor:pointer;position:relative}
     .category-card:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(0,0,0,.15);border-color:#4ECDC4}
     .category-header{padding:15px;text-align:center;position:relative;overflow:hidden}
     .category-header.education{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
-    .category-header.technique{background:linear-gradient(135deg,#FF6B6B 0%,#FF8E53 100%)}
     .category-header.book{background:linear-gradient(135deg,#4ECDC4 0%,#44A08D 100%)}
     .category-header.movie{background:linear-gradient(135deg,#45B7D1 0%,#96CEB4 100%)}
     .category-header.memes{background:linear-gradient(135deg,#FFEAA7 0%,#FDCB6E 100%)}
@@ -38,9 +43,12 @@
     .topic-item{background:#f8f9fa;border-radius:12px;padding:15px;cursor:pointer;transition:.3s;border:2px solid transparent}
     .topic-item:hover{background:#e9ecef;border-color:#4ECDC4;transform:translateY(-2px)}
     .topic-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .topic-header h3{margin:0;font-size:1rem;color:#2c3e50}
     .topic-count{background:#4ECDC4;color:#fff;padding:2px 8px;border-radius:12px;font-size:.8rem;font-weight:500}
     .topic-preview{display:flex;gap:5px;align-items:center}
     .topic-preview-img{width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid #dee2e6}
+    .more-indicator{background:#6c757d;color:#fff;width:40px;height:40px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:500}
+
     .slider-container{position:relative;width:100%;height:500px;overflow:hidden;border-radius:15px;background:#f8f9fa}
     .slider-wrapper{display:flex;transition:transform .3s;height:100%}
     .slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center}
@@ -51,6 +59,7 @@
     .dot{width:12px;height:12px;border-radius:50%;background:#ccc;cursor:pointer}
     .dot.active{background:#4ECDC4}
     .error{background:#ffe6e6;color:#d63031;padding:15px;border-radius:10px;margin:10px 0}
+    @media (max-width:768px){.categories-grid{grid-template-columns:repeat(2,1fr)}.widget-container{padding:20px;height:auto;min-height:600px}.header h1{font-size:1.5rem}}
   </style>
 </head>
 <body>
@@ -59,6 +68,7 @@
       <h1>📚 Education Station</h1>
       <p>Select a category to view cards</p>
     </div>
+
     <div class="categories-grid" id="categoriesGrid"></div>
   </div>
 
@@ -73,107 +83,197 @@
   </div>
 
   <script>
+    /* --- конфиг категорий (без Technique) --- */
     const categories = [
-      { id:'education', title:'Education', icon:'🎓', description:'Learning materials', folder:'cards/education' },
-      { id:'technique', title:'Technique', icon:'⚙️', description:'Educational techniques', folder:'cards/technique' },
-      { id:'book', title:'Book', icon:'📚', description:'Book reviews', folder:'cards/book' },
-      { id:'movie', title:'Movie', icon:'🎬', description:'Movies & videos', folder:'cards/movie' },
-      { id:'memes', title:'Memes', icon:'😄', description:'Memes & humor', folder:'cards/memes' },
-      { id:'quote', title:'Quote', icon:'💬', description:'Quotes & wisdom', folder:'cards/quote' },
+      { id:'education', title:'Education', icon:'🎓', description:'Learning materials', folder:'cards/education', order:1 },
+      { id:'book',      title:'Book',      icon:'📚', description:'Book reviews',     folder:'cards/book',      order:2 },
+      { id:'movie',     title:'Movie',     icon:'🎬', description:'Movies & videos',  folder:'cards/movie',     order:3 },
+      { id:'memes',     title:'Memes',     icon:'😄', description:'Memes & humor',    folder:'cards/memes',     order:4, random:true, buttonText:'Get Random Meme!' },
+      { id:'quote',     title:'Quote',     icon:'💬', description:'Quotes & wisdom',  folder:'cards/quote',     order:5, random:true, buttonText:'Get Random Quote!' },
     ];
+
     const FALLBACK = { OWNER:'your-username', REPO:'educational-cards', BRANCH:'main' };
+
     let currentSlideIndex = 0, currentImages = [];
 
-    document.addEventListener('DOMContentLoaded', ()=>{ displayCategories(); setupModal(); });
+    document.addEventListener('DOMContentLoaded', ()=>{
+      displayCategories();
+      setupModal();
+    });
 
     function displayCategories(){
       const grid = document.getElementById('categoriesGrid');
-      grid.innerHTML = categories.map(c=>`
-        <div class="category-card">
-          <div class="category-header ${c.id}">
-            <span class="category-icon">${c.icon}</span>
-            <div class="category-title">${c.title}</div>
+      const html = categories
+        .sort((a,b)=>a.order-b.order)
+        .map(c=>`
+          <div class="category-card" style="order:${c.order}">
+            <div class="category-header ${c.id}">
+              <span class="category-icon">${c.icon}</span>
+              <div class="category-title">${c.title}</div>
+            </div>
+            <div class="category-content">
+              <div class="category-description">${c.description}</div>
+              <button class="load-button" onclick="loadCategory('${c.id}')">
+                ${c.random ? (c.buttonText || 'Random') : 'View Topics'}
+              </button>
+            </div>
           </div>
-          <div class="category-content">
-            <div class="category-description">${c.description}</div>
-            <button class="load-button" onclick="loadCategoryCards('${c.id}')">View Topics</button>
-          </div>
-        </div>`).join('');
+        `).join('');
+      grid.innerHTML = html;
     }
+
     function setupModal(){
       document.querySelector('.modal-close').addEventListener('click', closeModal);
       document.getElementById('cardsModal').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeModal(); });
+      document.addEventListener('keydown', e=>{
+        if(document.getElementById('cardsModal').style.display==='block'){
+          if(e.key==='ArrowLeft') prevSlide();
+          if(e.key==='ArrowRight') nextSlide();
+          if(e.key==='Escape') closeModal();
+        }
+      });
     }
-    function showModal(title){ document.getElementById('modalTitle').textContent=title; document.getElementById('cardsModal').style.display='block'; }
+
+    function showModal(title){ document.getElementById('modalTitle').textContent = title; document.getElementById('cardsModal').style.display='block'; }
     function closeModal(){ document.getElementById('cardsModal').style.display='none'; }
 
+    /* --- GitHub helpers --- */
     function getRepoInfo(){
       const h=location.hostname,p=location.pathname;
       if(h.endsWith('github.io')) return { owner:h.split('.')[0], repo:p.split('/')[1]||'educational-cards', branch:'main' };
       return { owner:FALLBACK.OWNER, repo:FALLBACK.REPO, branch:FALLBACK.BRANCH };
     }
+
     async function fetchTree(prefix){
       const {owner,repo,branch}=getRepoInfo();
       const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`);
+      if(!r.ok){ throw new Error('GitHub API '+r.status); }
       const d=await r.json();
-      return d.tree.filter(n=>n.type==='blob'&&n.path.startsWith(prefix));
-    }
-    async function loadTopicsFromCategory(folderPath, categoryId){
-      const prefix=`${folderPath}/`, blobs=await fetchTree(prefix), byTopic=new Map(), {owner,repo,branch}=getRepoInfo();
-      blobs.forEach(n=>{
-        if(!/\.(png|jpe?g|gif|svg|webp)$/i.test(n.path))return;
-        const rel=n.path.slice(prefix.length), [topic,file]=rel.split('/');
-        if(!topic||!file)return;
-        const raw=`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${prefix}${encodeURIComponent(topic)}/${encodeURIComponent(file)}`.replace(/%2F/g,'/');
-        if(!byTopic.has(topic))byTopic.set(topic,[]);
-        byTopic.get(topic).push({name:file,url:raw,folder:topic});
-      });
-      return [...byTopic.entries()].map(([name,images])=>({category:categoryId,name,images}));
+      return d.tree.filter(n=>n.type==='blob' && n.path.startsWith(prefix));
     }
 
-    async function loadCategoryCards(categoryId){
-      const cat=categories.find(c=>c.id===categoryId);
-      showModal(cat.title+' Topics');
-      const topics=await loadTopicsFromCategory(cat.folder,cat.id);
-      document.getElementById('modalContent').innerHTML=`
-        <div class="topics-list">
-          ${topics.map(t=>`
-            <div class="topic-item" onclick="openTopic('${categoryId}','${t.name}')">
-              <div class="topic-header"><h3>${t.name}</h3><span class="topic-count">${t.images.length}</span></div>
-              <div class="topic-preview">
-                ${t.images.slice(0,3).map(i=>`<img class="topic-preview-img" src="${i.url}">`).join('')}
-              </div>
-            </div>`).join('')}
-        </div>`;
+    /* --- загрузка тем и изображений --- */
+    async function loadTopicsFromCategory(folderPath, categoryId){
+      const prefix = `${folderPath}/`;
+      const blobs = await fetchTree(prefix);
+      const byTopic = new Map();
+      const {owner,repo,branch}=getRepoInfo();
+
+      blobs.forEach(n=>{
+        if(!/\.(png|jpe?g|gif|svg|webp)$/i.test(n.path)) return;
+
+        const rel = n.path.slice(prefix.length);           // "Topic/file.png" ИЛИ "file.png"
+        const parts = rel.split('/');                      // поддержка файлов прямо в корне категории
+        const topic = parts.length>1 ? parts[0] : '(root)';
+        const file  = parts.length>1 ? parts.slice(1).join('/') : parts[0];
+
+        if(!byTopic.has(topic)) byTopic.set(topic, []);
+        const raw = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${prefix}${parts.map(encodeURIComponent).join('/')}`.replace(/%2F/g,'/');
+        byTopic.get(topic).push({ name:file, url:raw, folder:topic });
+      });
+
+      return [...byTopic.entries()].map(([name,images])=>({ category:categoryId, name, images }))
+                                   .sort((a,b)=>a.name.localeCompare(b.name,'en',{numeric:true}));
+    }
+
+    async function loadCategory(categoryId){
+      const cfg = categories.find(c=>c.id===categoryId);
+      if(!cfg) return;
+
+      if(cfg.random){
+        showModal(cfg.title);
+        await showRandomFromCategory(cfg.folder, cfg.id);
+      }else{
+        showModal(`${cfg.title} Topics`);
+        const topics = await loadTopicsFromCategory(cfg.folder, cfg.id);
+        if(!topics.length){
+          document.getElementById('modalContent').innerHTML = '<div class="error">Пока нет тем в этой категории.</div>';
+          return;
+        }
+        displayTopicsList(topics, cfg.id, cfg.title);
+      }
+    }
+
+    function displayTopicsList(topics, categoryId, title){
+      const itemsHtml = topics.map(t=>{
+        const count = t.images.length;
+        const previews = t.images.slice(0,3).map(img => `<img class="topic-preview-img" src="${img.url}" loading="lazy">`).join('');
+        return `
+          <div class="topic-item" onclick="openTopic('${categoryId}', '${t.name.replace(/'/g,"\\'")}')">
+            <div class="topic-header">
+              <h3>${t.name}</h3>
+              <span class="topic-count">${count}</span>
+            </div>
+            <div class="topic-preview">
+              ${previews}${count>3?`<div class="more-indicator">+${count-3}</div>`:''}
+            </div>
+          </div>`;
+      }).join('');
+
+      document.getElementById('modalContent').innerHTML = `
+        <div style="margin-bottom:12px;color:#6c757d;text-align:center">Выберите тему из «${title}»</div>
+        <div class="topics-list">${itemsHtml}</div>`;
     }
 
     function openTopic(categoryId, topicName){
-      loadTopicsFromCategory(`cards/${categoryId}`,categoryId).then(topics=>{
-        const t=topics.find(x=>x.name===topicName);
-        currentImages=t.images; currentSlideIndex=0; displaySlider();
+      loadTopicsFromCategory(`cards/${categoryId}`, categoryId).then(topics=>{
+        const t = topics.find(x=>x.name===topicName);
+        if(!t){ document.getElementById('modalContent').innerHTML='<div class="error">Тема не найдена.</div>'; return; }
+        currentImages = t.images; currentSlideIndex=0; displaySlider();
       });
     }
+
+    /* --- RANDOM: для memes/quote --- */
+    async function showRandomFromCategory(folderPath, categoryId){
+      // собираем все картинки из категории (включая корень и подпапки)
+      const topics = await loadTopicsFromCategory(folderPath, categoryId);
+      const all = topics.flatMap(t => t.images);
+      if(!all.length){
+        document.getElementById('modalContent').innerHTML = '<div class="error">Нет картинок в папке.</div>';
+        return;
+      }
+      const pick = () => all[Math.floor(Math.random()*all.length)];
+      let img = pick();
+
+      document.getElementById('modalContent').innerHTML = `
+        <div style="text-align:center;margin-bottom:16px;">
+          <button class="load-button" style="width:auto;padding:8px 16px" id="btnAnother">🎲 Another Random</button>
+        </div>
+        <div class="slider-container">
+          <div class="slide"><img src="${img.url}" alt="${img.name}" loading="lazy"></div>
+        </div>`;
+
+      document.getElementById('btnAnother').onclick = ()=>{
+        img = pick();
+        document.querySelector('.slider-container img').src = img.url;
+        document.querySelector('.slider-container img').alt = img.name;
+      };
+    }
+
+    /* --- слайдер --- */
     function displaySlider(){
       const imgs=currentImages;
       document.getElementById('modalContent').innerHTML=`
         <div class="slider-container">
           <div class="slider-wrapper" id="sliderWrapper">
-            ${imgs.map(i=>`<div class="slide"><img src="${i.url}"></div>`).join('')}
+            ${imgs.map(i=>`<div class="slide"><img src="${i.url}" alt="${i.name}" loading="lazy"></div>`).join('')}
           </div>
-          <button class="slider-nav slider-prev" onclick="prevSlide()">‹</button>
-          <button class="slider-nav slider-next" onclick="nextSlide()">›</button>
+          ${imgs.length>1?`<button class="slider-nav slider-prev" onclick="prevSlide()">‹</button>
+          <button class="slider-nav slider-next" onclick="nextSlide()">›</button>`:''}
         </div>
-        <div class="slider-dots">
-          ${imgs.map((_,i)=>`<div class="dot ${i===0?'active':''}" onclick="goToSlide(${i})"></div>`).join('')}
-        </div>`;
+        ${imgs.length>1?`
+          <div class="slider-dots">
+            ${imgs.map((_,i)=>`<div class="dot ${i===0?'active':''}" onclick="goToSlide(${i})"></div>`).join('')}
+          </div>`:''}`;
     }
     function updateSlider(){
-      document.getElementById('sliderWrapper').style.transform=`translateX(-${currentSlideIndex*100}%)`;
+      const w=document.getElementById('sliderWrapper'); if(!w) return;
+      w.style.transform=`translateX(-${currentSlideIndex*100}%)`;
       document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===currentSlideIndex));
     }
-    function nextSlide(){if(currentSlideIndex<currentImages.length-1){currentSlideIndex++;updateSlider();}}
-    function prevSlide(){if(currentSlideIndex>0){currentSlideIndex--;updateSlider();}}
-    function goToSlide(i){currentSlideIndex=i;updateSlider();}
+    function nextSlide(){ if(currentSlideIndex<currentImages.length-1){ currentSlideIndex++; updateSlider(); } }
+    function prevSlide(){ if(currentSlideIndex>0){ currentSlideIndex--; updateSlider(); } }
+    function goToSlide(i){ currentSlideIndex=i; updateSlider(); }
   </script>
 </body>
 </html>
